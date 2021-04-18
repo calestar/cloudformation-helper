@@ -1,0 +1,8 @@
+{
+  "python.pythonPath": ".tox/py39/bin/python3.9",
+  "restructuredtext.confPath": "${workspaceFolder}/docs",
+  "[python]": {
+    "editor.detectIndentation": false,
+    "editor.tabSize": 4
+  }
+}
