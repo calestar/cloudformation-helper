@@ -14,20 +14,11 @@ def cfhelper(ctx, config):
 
 
 @cfhelper.command()
-@click.argument("args", nargs=-1)
+@click.argument("stack_alias")
 @click.pass_obj
-def deploy(config, args):
-    if len(args) == 1:
-        if not config:
-            raise Exception('Could not find configuration file')
-        config_name, = args
-        stack_name, stack_file, use_changesets = config.get_stack(config_name)
-        deploy_or_update(stack_name, stack_file, use_changesets)
-    elif len(args) == 2:
-        stack_name, stack_file = args
-        deploy_or_update(stack_name, stack_file, True)
-    else:
-        click.echo('Missing arguments')
+def deploy(config, stack_alias):
+    stack_name, stack_file, use_changesets = config.get_stack(stack_alias)
+    deploy_or_update(stack_name, stack_file, use_changesets)
 
 
 def run():

@@ -31,9 +31,7 @@ def read_config(config_file_name):
     config_file = os.path.abspath(config_file_name)
     root = os.path.dirname(config_file)
 
-    try:
-        with open(config_file, 'r') as stream:
-            config = yaml.safe_load(stream)
-            return Config(root, config)
-    except Exception:
-        return None
+    # Yes, this will raise if something goes wrong, expected
+    with open(config_file, 'r') as stream:
+        config = yaml.safe_load(stream)
+        return Config(root, config)
