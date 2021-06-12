@@ -7,7 +7,7 @@ from click.testing import CliRunner
 from cloudformation_helper import cli
 
 
-def test_command_line_interface():
+def test_get_help():
     """Test the CLI."""
     runner = CliRunner()
     result = runner.invoke(cli.cfhelper)

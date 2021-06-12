@@ -7,8 +7,12 @@ import boto3
 CHANGESET_NAME = 'cfhelper-changeset'
 
 
+def get_cloudformation_client():
+    return boto3.client('cloudformation')
+
+
 def stack_exists(stack_name):
-    client = boto3.client('cloudformation')
+    client = get_cloudformation_client()
 
     try:
         client.describe_stacks(StackName=stack_name)
@@ -21,7 +25,7 @@ def stack_exists(stack_name):
 
 
 def create_stack(stack_name, stack_file):
-    client = boto3.client('cloudformation')
+    client = get_cloudformation_client()
     with open(stack_file) as f:
         template = f.read()
 
@@ -44,7 +48,7 @@ def create_stack(stack_name, stack_file):
 
 
 def update_stack(stack_name, stack_file):
-    client = boto3.client('cloudformation')
+    client = get_cloudformation_client()
     with open(stack_file) as f:
         template = f.read()
 
@@ -84,7 +88,7 @@ def has_changeset(stack_name):
 
 
 def get_changeset(stack_name):
-    client = boto3.client('cloudformation')
+    client = get_cloudformation_client()
 
     return client.describe_change_set(
         StackName=stack_name,
@@ -93,7 +97,7 @@ def get_changeset(stack_name):
 
 
 def create_changeset(stack_name, stack_file, is_creation):
-    client = boto3.client('cloudformation')
+    client = get_cloudformation_client()
     changeset_type = 'CREATE' if is_creation else 'UPDATE'
     with open(stack_file) as f:
         template = f.read()
@@ -120,7 +124,7 @@ def create_changeset(stack_name, stack_file, is_creation):
 
 
 def execute_changeset(stack_name, is_creation):
-    client = boto3.client('cloudformation')
+    client = get_cloudformation_client()
     client.execute_change_set(
         StackName=stack_name,
         ChangeSetName=CHANGESET_NAME,
@@ -138,7 +142,7 @@ def execute_changeset(stack_name, is_creation):
 
 
 def delete_changeset(stack_name):
-    client = boto3.client('cloudformation')
+    client = get_cloudformation_client()
 
     client.delete_change_set(
         StackName=stack_name,

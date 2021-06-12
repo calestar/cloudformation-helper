@@ -32,8 +32,6 @@ Sample `stacks.cfh` file:
 
 .. code-block:: yaml
 
-  # CloudFormation-helper config
-
   MyStackAlias:
     stack: MyStackName
     file: myStackFile.yml
