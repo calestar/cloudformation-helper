@@ -126,6 +126,7 @@ $ git push
 $ git push --tags
 $ git checkout vX.Y.Z # Checkout the tag you just created/pushed
 $ pip install twine
+$ rm -rf dist/*
 $ python setup.py sdist bdist_wheel
 $ twine upload dist/*
 
