@@ -41,18 +41,6 @@ Sample `stacks.cfh` file:
     - CAPABILITY_NAMED_IAM
 
 
-Releasing a new version
------------------------
-
-.. code-block:: bash
-
-   pip install twine
-   python setup.py sdist bdist_wheel
-   twine upload dist/*
-
-In order to test releasing a version, use `twine upload -r testpypi dist/*` instead.
-
-
 Credits
 -------
 

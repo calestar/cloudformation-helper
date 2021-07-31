@@ -124,5 +124,11 @@ Then run::
 $ bump2version patch # possible: major / minor / patch
 $ git push
 $ git push --tags
+$ git checkout vX.Y.Z # Checkout the tag you just created/pushed
+$ pip install twine
+$ python setup.py sdist bdist_wheel
+$ twine upload dist/*
 
-Travis will then deploy to PyPI if tests pass.
+Finally, create the release in GitHub and upload :code:`dist/*`.
+
+In order to test releasing a version, use :code:`twine upload -r testpypi dist/*` instead.
