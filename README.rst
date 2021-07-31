@@ -36,6 +36,9 @@ Sample `stacks.cfh` file:
     stack: MyStackName
     file: myStackFile.yml
     use_changesets: false
+    capabilities:
+    - CAPABILITY_IAM
+    - CAPABILITY_NAMED_IAM
 
 
 Releasing a new version
