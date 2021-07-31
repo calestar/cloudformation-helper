@@ -24,7 +24,7 @@ def stack_exists(stack_name):
     return True
 
 
-def create_stack(stack_name, stack_file):
+def create_stack(stack_name, stack_file, capabilities):
     client = get_cloudformation_client()
     with open(stack_file) as f:
         template = f.read()
@@ -32,9 +32,7 @@ def create_stack(stack_name, stack_file):
     client.create_stack(
         StackName=stack_name,
         TemplateBody=template,
-        Capabilities=[
-            'CAPABILITY_IAM',
-        ],
+        Capabilities=sorted(capabilities),
     )
     waiter = client.get_waiter('stack_create_complete')
 
@@ -47,7 +45,7 @@ def create_stack(stack_name, stack_file):
     )
 
 
-def update_stack(stack_name, stack_file):
+def update_stack(stack_name, stack_file, capabilities):
     client = get_cloudformation_client()
     with open(stack_file) as f:
         template = f.read()
@@ -59,9 +57,7 @@ def update_stack(stack_name, stack_file):
     client.update_stack(
         StackName=stack_name,
         TemplateBody=template,
-        Capabilities=[
-            'CAPABILITY_IAM',
-        ],
+        Capabilities=sorted(capabilities),
     )
 
     waiter = client.get_waiter('stack_update_complete')
@@ -96,7 +92,7 @@ def get_changeset(stack_name):
     )
 
 
-def create_changeset(stack_name, stack_file, is_creation):
+def create_changeset(stack_name, stack_file, is_creation, capabilities):
     client = get_cloudformation_client()
     changeset_type = 'CREATE' if is_creation else 'UPDATE'
     with open(stack_file) as f:
@@ -105,9 +101,7 @@ def create_changeset(stack_name, stack_file, is_creation):
     client.create_change_set(
         StackName=stack_name,
         TemplateBody=template,
-        Capabilities=[
-            'CAPABILITY_IAM',
-        ],
+        Capabilities=sorted(capabilities),
         ChangeSetName=CHANGESET_NAME,
         ChangeSetType=changeset_type,
     )

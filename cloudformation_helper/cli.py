@@ -2,7 +2,7 @@
 import sys
 import click
 
-from cloudformation_helper.commands.deploy import deploy_or_update
+import cloudformation_helper.commands.deploy as deployModule
 from cloudformation_helper.utils.config import read_config
 
 
@@ -17,8 +17,8 @@ def cfhelper(ctx, config):
 @click.argument("stack_alias")
 @click.pass_obj
 def deploy(config, stack_alias):
-    stack_name, stack_file, use_changesets = config.get_stack(stack_alias)
-    deploy_or_update(stack_name, stack_file, use_changesets)
+    stack_name, stack_file, use_changesets, capabilities = config.get_stack(stack_alias)
+    deployModule.deploy_or_update(stack_name, stack_file, use_changesets, capabilities)
 
 
 def run():

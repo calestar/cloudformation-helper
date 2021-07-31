@@ -3,6 +3,7 @@ import os
 
 import yaml
 
+VALID_CAPABILITIES = ['CAPABILITY_IAM', 'CAPABILITY_NAMED_IAM', 'CAPABILITY_AUTO_EXPAND']
 
 class Config:
     def __init__(self, stacks):
@@ -20,6 +21,7 @@ def parse_stack(section, root):
     stack_name = section.get('stack')
     stack_file = section.get('file')
     use_changesets = section.get('use_changesets')
+    capabilities = section.get('capabilities', [])
 
     if not os.path.isabs(stack_file):
         stack_file = os.path.join(root, stack_file)
@@ -27,7 +29,14 @@ def parse_stack(section, root):
     if not os.path.exists(stack_file):
         raise Exception(f"Could not find stack file: '{stack_file}'")
 
-    return stack_name, stack_file, use_changesets
+    if not isinstance(capabilities, list):
+        raise Exception('Wrong format for capabilities, expecting list')
+
+    capabilities = set(capabilities)
+    if not capabilities.issubset(VALID_CAPABILITIES):
+        raise Exception(f"Some capabilities are not valid; valid values are '{VALID_CAPABILITIES}'")
+
+    return stack_name, stack_file, use_changesets, capabilities
 
 
 def read_config(config_file_name):
