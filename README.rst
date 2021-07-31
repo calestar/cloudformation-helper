@@ -32,12 +32,13 @@ Sample `stacks.cfh` file:
 
 .. code-block:: yaml
 
-  # CloudFormation-helper config
-
   MyStackAlias:
     stack: MyStackName
     file: myStackFile.yml
     use_changesets: false
+    capabilities:
+    - CAPABILITY_IAM
+    - CAPABILITY_NAMED_IAM
 
 
 Releasing a new version

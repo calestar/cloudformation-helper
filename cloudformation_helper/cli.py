@@ -2,36 +2,27 @@
 import sys
 import click
 
-from cloudformation_helper.commands.deploy import deploy_or_update
+import cloudformation_helper.commands.deploy as deployModule
 from cloudformation_helper.utils.config import read_config
 
 
 @click.group()
-@click.option('--config', default='stacks.cfh')
+@click.option("--config", default="stacks.cfh")
 @click.pass_context
 def cfhelper(ctx, config):
     ctx.obj = read_config(config)
 
 
 @cfhelper.command()
-@click.argument("args", nargs=-1)
+@click.argument("stack_alias")
 @click.pass_obj
-def deploy(config, args):
-    if len(args) == 1:
-        if not config:
-            raise Exception('Could not find configuration file')
-        config_name, = args
-        stack_name, stack_file, use_changesets = config.get_stack(config_name)
-        deploy_or_update(stack_name, stack_file, use_changesets)
-    elif len(args) == 2:
-        stack_name, stack_file = args
-        deploy_or_update(stack_name, stack_file, True)
-    else:
-        click.echo('Missing arguments')
+def deploy(config, stack_alias):
+    stack_name, stack_file, use_changesets, capabilities = config.get_stack(stack_alias)
+    deployModule.deploy_or_update(stack_name, stack_file, use_changesets, capabilities)
 
 
 def run():
-    sys.exit(cfhelper(auto_envvar_prefix='CFHELPER'))  # pragma: no cover
+    sys.exit(cfhelper(auto_envvar_prefix="CFHELPER"))  # pragma: no cover
 
 
 if __name__ == "__main__":
