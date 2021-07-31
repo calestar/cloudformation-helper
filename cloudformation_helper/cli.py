@@ -7,7 +7,7 @@ from cloudformation_helper.utils.config import read_config
 
 
 @click.group()
-@click.option('--config', default='stacks.cfh')
+@click.option("--config", default="stacks.cfh")
 @click.pass_context
 def cfhelper(ctx, config):
     ctx.obj = read_config(config)
@@ -22,7 +22,7 @@ def deploy(config, stack_alias):
 
 
 def run():
-    sys.exit(cfhelper(auto_envvar_prefix='CFHELPER'))  # pragma: no cover
+    sys.exit(cfhelper(auto_envvar_prefix="CFHELPER"))  # pragma: no cover
 
 
 if __name__ == "__main__":
