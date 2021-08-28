@@ -17,8 +17,8 @@ Sample `stacks.cfh` file:
     file: myStackFile.yml
     use_changesets: false
 
-Once you have the above configuration file, you can deploy the stack by running `cfhelper deploy MyStackAlias`. You can
+Once you have the above configuration file, you can deploy the stack by running `cfhelper stack deploy MyStackAlias`. You can
 also specify the configuration file to use either through a flag, `cfhelper --config ../path/to/config.cfh deploy MyStackAlias`,
-or through an environment variable `CFHELPER_CONFIG=../path/to/config.cfh cfhelper deploy MyStackAlias`.
+or through an environment variable `CFHELPER_CONFIG=../path/to/config.cfh cfhelper stack deploy MyStackAlias`.
 
 The file attribute of your stack will be searched relative to the configuration file.

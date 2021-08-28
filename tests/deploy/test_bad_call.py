@@ -27,6 +27,7 @@ def test_stack_wrong_name(mock_aws_stack_exists, mock_boto3):
         runner.invoke(
             cli.cfhelper,
             [
+                "stack",
                 "--config",
                 os.path.join(CONFIG_DIR, "valid_multistacks.cfh"),
                 "deploy",
@@ -48,6 +49,7 @@ def test_update_with_existing_changeset(
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(CONFIG_DIR, "valid_with_changeset.cfh"),
             "deploy",
@@ -73,6 +75,7 @@ def test_update_with_existing_changeset_and_continue(
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(CONFIG_DIR, "valid_with_changeset.cfh"),
             "deploy",

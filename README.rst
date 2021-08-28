@@ -25,7 +25,7 @@ Usage
 
    pip install cloudformation-helper
    vim stacks.cfh
-   cfhelper deploy MyStackAlias
+   cfhelper stack deploy MyStackAlias
 
 
 Sample `stacks.cfh` file:

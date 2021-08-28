@@ -7,13 +7,18 @@ from cloudformation_helper.utils.config import read_config
 
 
 @click.group()
+def cfhelper():
+    pass
+
+
+@cfhelper.group()
 @click.option("--config", default="stacks.cfh")
 @click.pass_context
-def cfhelper(ctx, config):
+def stack(ctx, config):
     ctx.obj = read_config(config)
 
 
-@cfhelper.command()
+@stack.command()
 @click.argument("stack_alias")
 @click.pass_obj
 def deploy(config, stack_alias):

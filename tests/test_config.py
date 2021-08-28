@@ -22,7 +22,7 @@ def test_config_file_does_not_exist():
     with pytest.raises(FileNotFoundError, match=r"No such file or directory"):
         runner.invoke(
             cli.cfhelper,
-            ["--config", "not-a-valid-file", "deploy"],
+            ["stack", "--config", "not-a-valid-file", "deploy"],
             catch_exceptions=False,
         )
 
@@ -33,7 +33,7 @@ def test_wrong_config_format():
     with pytest.raises(yaml.parser.ParserError):
         runner.invoke(
             cli.cfhelper,
-            ["--config", os.path.join(CONFIG_DIR, "not_valid_yaml.cfh"), "deploy"],
+            ["stack", "--config", os.path.join(CONFIG_DIR, "not_valid_yaml.cfh"), "deploy"],
             catch_exceptions=False,
         )
 
@@ -46,6 +46,7 @@ def test_valid_multistacks_config(mock_deploy):
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(CONFIG_DIR, "valid_multistacks.cfh"),
             "deploy",
@@ -64,6 +65,7 @@ def test_valid_singlestack_config(mock_deploy):
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(CONFIG_DIR, "valid_singlestack.cfh"),
             "deploy",
@@ -83,6 +85,7 @@ def test_bad_capability(mock_deploy):
         runner.invoke(
             cli.cfhelper,
             [
+                "stack",
                 "--config",
                 os.path.join(CONFIG_DIR, "valid_singlestack_bad_capability.cfh"),
                 "deploy",
@@ -102,6 +105,7 @@ def test_with_capability(mock_deploy):
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(CONFIG_DIR, "valid_singlestack_with_capability.cfh"),
             "deploy",
@@ -122,6 +126,7 @@ def test_with_multiple_capabilities(mock_deploy):
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(
                 CONFIG_DIR, "valid_singlestack_with_multiple_capabilities.cfh"
