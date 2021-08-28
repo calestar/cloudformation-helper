@@ -3,6 +3,7 @@ import sys
 import click
 
 import cloudformation_helper.commands.deploy as deployModule
+import cloudformation_helper.commands.info as infoModule
 from cloudformation_helper.utils.config import read_config
 
 
@@ -24,6 +25,12 @@ def stack(ctx, config):
 def deploy(config, stack_alias):
     stack_name, stack_file, use_changesets, capabilities = config.get_stack(stack_alias)
     deployModule.deploy_or_update(stack_name, stack_file, use_changesets, capabilities)
+
+
+@cfhelper.command()
+@click.pass_obj
+def info(config):
+    infoModule.displayInfo(config)
 
 
 def run():
