@@ -23,6 +23,7 @@ def test_create(mock_aws_stack_exists, mock_boto3):
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(CONFIG_DIR, "valid_multistacks.cfh"),
             "deploy",
@@ -46,6 +47,7 @@ def test_update(mock_aws_stack_exists, mock_boto3):
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(CONFIG_DIR, "valid_multistacks.cfh"),
             "deploy",
@@ -72,6 +74,7 @@ def test_create_with_changeset(
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(CONFIG_DIR, "valid_with_changeset.cfh"),
             "deploy",
@@ -107,6 +110,7 @@ def test_create_with_changeset_no_execute(
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(CONFIG_DIR, "valid_with_changeset.cfh"),
             "deploy",
@@ -140,6 +144,7 @@ def test_create_with_changeset_no_execute_cleanup(
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(CONFIG_DIR, "valid_with_changeset.cfh"),
             "deploy",
@@ -176,6 +181,7 @@ def test_update_with_changeset(
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(CONFIG_DIR, "valid_with_changeset.cfh"),
             "deploy",
@@ -211,6 +217,7 @@ def test_update_with_changeset_no_execute(
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(CONFIG_DIR, "valid_with_changeset.cfh"),
             "deploy",
@@ -244,6 +251,7 @@ def test_update_with_changeset_no_execute_cleanup(
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(CONFIG_DIR, "valid_with_changeset.cfh"),
             "deploy",
@@ -277,6 +285,7 @@ def test_create_with_capabilities(mock_aws_stack_exists, mock_boto3):
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(
                 CONFIG_DIR, "valid_singlestack_with_multiple_capabilities.cfh"
@@ -303,6 +312,7 @@ def test_update_with_capabilities(mock_aws_stack_exists, mock_boto3):
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(
                 CONFIG_DIR, "valid_singlestack_with_multiple_capabilities.cfh"
@@ -332,6 +342,7 @@ def test_create_with_changeset_and_capabilities(
     runner.invoke(
         cli.cfhelper,
         [
+            "stack",
             "--config",
             os.path.join(
                 CONFIG_DIR, "valid_singlestack_capabilities_and_changeset.cfh"

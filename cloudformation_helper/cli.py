@@ -3,22 +3,34 @@ import sys
 import click
 
 import cloudformation_helper.commands.deploy as deployModule
+import cloudformation_helper.commands.info as infoModule
 from cloudformation_helper.utils.config import read_config
 
 
 @click.group()
+def cfhelper():
+    pass
+
+
+@cfhelper.group()
 @click.option("--config", default="stacks.cfh")
 @click.pass_context
-def cfhelper(ctx, config):
+def stack(ctx, config):
     ctx.obj = read_config(config)
 
 
-@cfhelper.command()
+@stack.command()
 @click.argument("stack_alias")
 @click.pass_obj
 def deploy(config, stack_alias):
     stack_name, stack_file, use_changesets, capabilities = config.get_stack(stack_alias)
     deployModule.deploy_or_update(stack_name, stack_file, use_changesets, capabilities)
+
+
+@cfhelper.command()
+@click.pass_obj
+def info(config):
+    infoModule.displayInfo(config)
 
 
 def run():
