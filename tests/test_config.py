@@ -59,7 +59,9 @@ def test_valid_multistacks_config(mock_deploy):
         ],
         catch_exceptions=False,
     )
-    mock_deploy.assert_called_once_with("MyStackName", mock.ANY, mock.ANY, mock.ANY)
+    mock_deploy.assert_called_once_with(
+        "MyStackName", mock.ANY, mock.ANY, mock.ANY, None, None
+    )
 
 
 @mock.patch.object(deploy, "deploy_or_update")
@@ -78,7 +80,9 @@ def test_valid_singlestack_config(mock_deploy):
         ],
         catch_exceptions=False,
     )
-    mock_deploy.assert_called_once_with("MyStackName", mock.ANY, False, set())
+    mock_deploy.assert_called_once_with(
+        "MyStackName", mock.ANY, False, set(), None, None
+    )
 
 
 @mock.patch.object(deploy, "deploy_or_update")
@@ -119,7 +123,7 @@ def test_with_capability(mock_deploy):
         catch_exceptions=False,
     )
     mock_deploy.assert_called_once_with(
-        "MyStackName", mock.ANY, False, {"CAPABILITY_IAM"}
+        "MyStackName", mock.ANY, False, {"CAPABILITY_IAM"}, None, None
     )
 
 
@@ -142,5 +146,10 @@ def test_with_multiple_capabilities(mock_deploy):
         catch_exceptions=False,
     )
     mock_deploy.assert_called_once_with(
-        "MyStackName", mock.ANY, False, {"CAPABILITY_IAM", "CAPABILITY_NAMED_IAM"}
+        "MyStackName",
+        mock.ANY,
+        False,
+        {"CAPABILITY_IAM", "CAPABILITY_NAMED_IAM"},
+        None,
+        None,
     )

@@ -22,10 +22,12 @@ class Config:
         return stack
 
 
-def parse_stack(section, root):
+def parse_stack(section, root, aws_profile, aws_region):
     stack_name = section.get("stack")
     stack_file = section.get("file")
     use_changesets = section.get("use_changesets")
+    use_profile = section.get("aws_profile")
+    use_region = section.get("aws_region")
     capabilities = section.get("capabilities", [])
 
     if not os.path.isabs(stack_file):
@@ -43,10 +45,10 @@ def parse_stack(section, root):
             f"Some capabilities are not valid; valid values are '{VALID_CAPABILITIES}'"
         )
 
-    return stack_name, stack_file, use_changesets, capabilities
+    return stack_name, stack_file, use_changesets, capabilities, use_profile, use_region
 
 
-def read_config(config_file_name):
+def read_config(config_file_name, aws_profile, aws_region):
     config_file = os.path.abspath(config_file_name)
     root = os.path.dirname(config_file)
     stacks = {}
@@ -57,7 +59,7 @@ def read_config(config_file_name):
 
     # Find all the stacks and validate them
     for name, section in raw_config.items():
-        stack = parse_stack(section, root)
+        stack = parse_stack(section, root, aws_profile, aws_region)
         stacks[name] = stack
 
     return Config(stacks)

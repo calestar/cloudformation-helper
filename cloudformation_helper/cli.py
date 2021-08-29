@@ -14,17 +14,28 @@ def cfhelper():
 
 @cfhelper.group()
 @click.option("--config", default="stacks.cfh")
+@click.option("--aws-profile", envvar="AWS_PROFILE")
+@click.option("--aws-region", envvar="AWS_REGION")
 @click.pass_context
-def stack(ctx, config):
-    ctx.obj = read_config(config)
+def stack(ctx, config, aws_profile, aws_region):
+    ctx.obj = read_config(config, aws_profile, aws_region)
 
 
 @stack.command()
 @click.argument("stack_alias")
 @click.pass_obj
 def deploy(config, stack_alias):
-    stack_name, stack_file, use_changesets, capabilities = config.get_stack(stack_alias)
-    deployModule.deploy_or_update(stack_name, stack_file, use_changesets, capabilities)
+    (
+        stack_name,
+        stack_file,
+        use_changesets,
+        capabilities,
+        use_profile,
+        use_region,
+    ) = config.get_stack(stack_alias)
+    deployModule.deploy_or_update(
+        stack_name, stack_file, use_changesets, capabilities, use_profile, use_region
+    )
 
 
 @cfhelper.command()

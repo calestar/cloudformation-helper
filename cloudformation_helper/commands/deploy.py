@@ -35,7 +35,9 @@ def create_using_changeset(stack_name, stack_file, capabilities):
             aws.delete_changeset(stack_name)
 
 
-def deploy_or_update(stack_name, stack_file, use_changesets, capabilities):
+def deploy_or_update(
+    stack_name, stack_file, use_changesets, capabilities, use_profile, use_region
+):
     click.echo(f"Processing {stack_name} using {stack_file}")
 
     if use_changesets and aws.has_changeset(stack_name):
