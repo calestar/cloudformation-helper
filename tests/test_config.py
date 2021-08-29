@@ -33,7 +33,12 @@ def test_wrong_config_format():
     with pytest.raises(yaml.parser.ParserError):
         runner.invoke(
             cli.cfhelper,
-            ["stack", "--config", os.path.join(CONFIG_DIR, "not_valid_yaml.cfh"), "deploy"],
+            [
+                "stack",
+                "--config",
+                os.path.join(CONFIG_DIR, "not_valid_yaml.cfh"),
+                "deploy",
+            ],
             catch_exceptions=False,
         )
 
