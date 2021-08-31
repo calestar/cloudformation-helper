@@ -30,11 +30,16 @@ def deploy(config, stack_alias):
         stack_file,
         use_changesets,
         capabilities,
-        use_profile,
-        use_region,
+        selected_profile,
+        selected_region,
     ) = config.get_stack(stack_alias)
     deployModule.deploy_or_update(
-        stack_name, stack_file, use_changesets, capabilities, use_profile, use_region
+        stack_name,
+        stack_file,
+        use_changesets,
+        capabilities,
+        selected_profile,
+        selected_region,
     )
 
 
