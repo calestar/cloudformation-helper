@@ -2,22 +2,17 @@
 
 """Tests for `cloudformation_helper` info command."""
 
-from click.testing import CliRunner
-
 import cloudformation_helper
-from cloudformation_helper import cli
+
+from .helpers import call_cfhelper
 
 
 def test_info():
     """Not much to test, simply check result from the call"""
-    runner = CliRunner()
-
-    result = runner.invoke(
-        cli.cfhelper,
+    result = call_cfhelper(
         [
             "info",
         ],
-        catch_exceptions=False,
     )
 
     assert result.exit_code == 0

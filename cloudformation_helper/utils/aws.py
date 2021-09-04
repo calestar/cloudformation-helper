@@ -7,12 +7,16 @@ import boto3
 CHANGESET_NAME = "cfhelper-changeset"
 
 
-def get_cloudformation_client():
-    return boto3.client("cloudformation")
+def get_cloudformation_client(selected_profile, selected_region):
+    session = boto3.Session(
+        profile_name=selected_profile,
+        region_name=selected_region,
+    )
+    return session.client("cloudformation")
 
 
-def stack_exists(stack_name):
-    client = get_cloudformation_client()
+def stack_exists(stack_name, selected_profile, selected_region):
+    client = get_cloudformation_client(selected_profile, selected_region)
 
     try:
         client.describe_stacks(StackName=stack_name)
@@ -27,8 +31,10 @@ def stack_exists(stack_name):
     return True
 
 
-def create_stack(stack_name, stack_file, capabilities):
-    client = get_cloudformation_client()
+def create_stack(
+    stack_name, stack_file, capabilities, selected_profile, selected_region
+):
+    client = get_cloudformation_client(selected_profile, selected_region)
     with open(stack_file) as f:
         template = f.read()
 
@@ -42,8 +48,10 @@ def create_stack(stack_name, stack_file, capabilities):
     waiter.wait(StackName=stack_name, WaiterConfig={"Delay": 15, "MaxAttempts": 120})
 
 
-def update_stack(stack_name, stack_file, capabilities):
-    client = get_cloudformation_client()
+def update_stack(
+    stack_name, stack_file, capabilities, selected_profile, selected_region
+):
+    client = get_cloudformation_client(selected_profile, selected_region)
     with open(stack_file) as f:
         template = f.read()
 
@@ -61,9 +69,9 @@ def update_stack(stack_name, stack_file, capabilities):
     waiter.wait(StackName=stack_name, WaiterConfig={"Delay": 15, "MaxAttempts": 120})
 
 
-def has_changeset(stack_name):
+def has_changeset(stack_name, selected_profile, selected_region):
     try:
-        get_changeset(stack_name)
+        get_changeset(stack_name, selected_profile, selected_region)
     except botocore.exceptions.ClientError as error:
         if (
             error.response["Error"]["Code"] == "ValidationError"
@@ -77,8 +85,8 @@ def has_changeset(stack_name):
     return True
 
 
-def get_changeset(stack_name):
-    client = get_cloudformation_client()
+def get_changeset(stack_name, selected_profile, selected_region):
+    client = get_cloudformation_client(selected_profile, selected_region)
 
     return client.describe_change_set(
         StackName=stack_name,
@@ -86,8 +94,10 @@ def get_changeset(stack_name):
     )
 
 
-def create_changeset(stack_name, stack_file, is_creation, capabilities):
-    client = get_cloudformation_client()
+def create_changeset(
+    stack_name, stack_file, is_creation, capabilities, selected_profile, selected_region
+):
+    client = get_cloudformation_client(selected_profile, selected_region)
     changeset_type = "CREATE" if is_creation else "UPDATE"
     with open(stack_file) as f:
         template = f.read()
@@ -108,8 +118,8 @@ def create_changeset(stack_name, stack_file, is_creation, capabilities):
     )
 
 
-def execute_changeset(stack_name, is_creation):
-    client = get_cloudformation_client()
+def execute_changeset(stack_name, is_creation, selected_profile, selected_region):
+    client = get_cloudformation_client(selected_profile, selected_region)
     client.execute_change_set(
         StackName=stack_name,
         ChangeSetName=CHANGESET_NAME,
@@ -120,8 +130,8 @@ def execute_changeset(stack_name, is_creation):
     waiter.wait(StackName=stack_name, WaiterConfig={"Delay": 15, "MaxAttempts": 120})
 
 
-def delete_changeset(stack_name):
-    client = get_cloudformation_client()
+def delete_changeset(stack_name, selected_profile, selected_region):
+    client = get_cloudformation_client(selected_profile, selected_region)
 
     client.delete_change_set(
         StackName=stack_name,
