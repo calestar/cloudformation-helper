@@ -516,3 +516,91 @@ def test_update_mixed_override(mock_aws_stack_exists):
             TemplateBody=mock.ANY,
             Capabilities=[],
         )
+
+
+@mock.patch.object(aws, "stack_exists", return_value=True)
+def test_update_config_override(mock_aws_stack_exists):
+    """Update an existing stack"""
+    with cfhelper_mocks() as (boto3_mock, session_mock, client_mock):
+        call_cfhelper(
+            [
+                "stack",
+                "--config",
+                os.path.join(
+                    CONFIG_DIR, "valid_singlestack_with_region_and_profile.cfh"
+                ),
+                "deploy",
+                "MyStackAlias",
+            ],
+        )
+
+        boto3_mock.Session.assert_called_once_with(
+            profile_name="MyCanadianProfile",
+            region_name="ca-central-1",
+        )
+
+        client_mock.update_stack.assert_called_once_with(
+            StackName="MyStackName",
+            TemplateBody=mock.ANY,
+            Capabilities=[],
+        )
+
+
+@mock.patch.object(aws, "stack_exists", return_value=True)
+@mock.patch.dict(os.environ, {"AWS_PROFILE": "MyProfile"})
+def test_update_config_and_profile_override(mock_aws_stack_exists):
+    """Update an existing stack"""
+    with cfhelper_mocks() as (boto3_mock, session_mock, client_mock):
+        call_cfhelper(
+            [
+                "stack",
+                "--config",
+                os.path.join(
+                    CONFIG_DIR, "valid_singlestack_with_region_and_profile.cfh"
+                ),
+                "deploy",
+                "MyStackAlias",
+            ],
+        )
+
+        boto3_mock.Session.assert_called_once_with(
+            profile_name="MyProfile",
+            region_name="ca-central-1",
+        )
+
+        client_mock.update_stack.assert_called_once_with(
+            StackName="MyStackName",
+            TemplateBody=mock.ANY,
+            Capabilities=[],
+        )
+
+
+@mock.patch.object(aws, "stack_exists", return_value=True)
+@mock.patch.dict(os.environ, {"AWS_PROFILE": "MyProfile"})
+def test_update_all_override(mock_aws_stack_exists):
+    """Update an existing stack"""
+    with cfhelper_mocks() as (boto3_mock, session_mock, client_mock):
+        call_cfhelper(
+            [
+                "stack",
+                "--aws-profile",
+                "MyExplicitProfile",
+                "--config",
+                os.path.join(
+                    CONFIG_DIR, "valid_singlestack_with_region_and_profile.cfh"
+                ),
+                "deploy",
+                "MyStackAlias",
+            ],
+        )
+
+        boto3_mock.Session.assert_called_once_with(
+            profile_name="MyExplicitProfile",
+            region_name="ca-central-1",
+        )
+
+        client_mock.update_stack.assert_called_once_with(
+            StackName="MyStackName",
+            TemplateBody=mock.ANY,
+            Capabilities=[],
+        )

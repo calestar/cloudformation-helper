@@ -1,0 +1,6 @@
+MyStackAlias:
+  stack: MyStackName
+  aws_region: ca-central-1
+  aws_profile: MyCanadianProfile
+  file: ../stacks/simple.yml
+  use_changesets: false
