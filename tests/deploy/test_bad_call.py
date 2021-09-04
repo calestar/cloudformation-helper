@@ -17,7 +17,7 @@ CONFIG_DIR = os.path.join(HERE, "..", "data", "config")
 @mock.patch.object(aws, "stack_exists", return_value=False)
 def test_stack_wrong_name(mock_aws_stack_exists):
     """Create a new stack"""
-    with cfhelper_mocks() as (session_mock, client_mock):
+    with cfhelper_mocks() as (boto3_mock, session_mock, client_mock):
         with pytest.raises(
             Exception, match=r"Could not find stack config named 'IamNotAStack'"
         ):
@@ -36,8 +36,7 @@ def test_stack_wrong_name(mock_aws_stack_exists):
 @mock.patch.object(aws, "has_changeset", return_value=True)
 def test_update_with_existing_changeset(mock_aws_has_changeset, mock_aws_stack_exists):
     """Try to update an existing changeset; but a changeset already exists, bail out"""
-
-    with cfhelper_mocks() as (session_mock, client_mock):
+    with cfhelper_mocks() as (boto3_mock, session_mock, client_mock):
         call_cfhelper(
             [
                 "stack",
@@ -59,7 +58,7 @@ def test_update_with_existing_changeset_and_continue(
     mock_aws_has_changeset, mock_aws_stack_exists
 ):
     """Try to update an existing changeset; but a changeset already exists, delete it and continue"""
-    with cfhelper_mocks() as (session_mock, client_mock):
+    with cfhelper_mocks() as (boto3_mock, session_mock, client_mock):
         call_cfhelper(
             [
                 "stack",
